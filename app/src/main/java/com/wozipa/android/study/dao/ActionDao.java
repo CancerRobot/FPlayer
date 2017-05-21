@@ -1,5 +1,6 @@
 package com.wozipa.android.study.dao;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
@@ -26,20 +27,31 @@ public class ActionDao {
     }
 
 
-    public void create(Action action)
+    public int create(Action action)
     {
-        StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME).append("('name','content','start','end','record' values(")
-                .append(action.getName()).append(",")
-                .append(action.getContent()).append(",")
-                .append(action.getStart()).append(",")
-                .append(action.getEnd()).append(",")
+        StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME).append("('name','content','start','end','record') values('")
+                .append(action.getName()).append("','")
+                .append(action.getContent()).append("','")
+                .append(action.getStart()).append("','")
+                .append(action.getEnd()).append("',")
                 .append(action.getRecord()).append(")");
+        System.out.println(stringBuffer.toString());
         database.execSQL(stringBuffer.toString());
+        Cursor cursor=database.rawQuery("select LAST_INSERT_ROWID()",null);
+        cursor.moveToNext();
+        return cursor.getInt(0);
     }
 
     public void edit(Action action)
     {
         StringBuffer stringBuffer=new StringBuffer();
         database.execSQL(stringBuffer.toString());
+    }
+
+    public Cursor list()
+    {
+        String sql="select * from actions";
+        Cursor cursor=database.rawQuery(sql,null);
+        return cursor;
     }
 }

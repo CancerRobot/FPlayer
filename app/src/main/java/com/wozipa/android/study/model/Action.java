@@ -6,6 +6,18 @@ package com.wozipa.android.study.model;
 
 public class Action {
 
+    public Action(){}
+
+    public Action(String name,String content,String start,String end,int record)
+    {
+        this.name=name;
+        this.content=content;
+        this.start=start;
+        this.end=end;
+        this.record=record;
+    }
+
+
     private int id;
     private String name;
     private String content;
@@ -61,4 +73,8 @@ public class Action {
         this.record = record;
     }
 
+    @Override
+    public String toString() {
+        return "["+id+","+name+","+content+","+start+","+end+","+record+"]";
+    }
 }

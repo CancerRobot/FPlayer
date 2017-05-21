@@ -19,7 +19,7 @@ public class MySqlLite extends SQLiteOpenHelper{
 
     public static void initlie(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
     {
-        new MySqlLite(context,name,factory,version);
+        SQL_LITE=new MySqlLite(context,name,factory,version);
     }
 
     public static MySqlLite GetSqlLite()
@@ -33,7 +33,7 @@ public class MySqlLite extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createActionsSql="create table actions(id integer primary key aotuincrement,name varchar(20),content text,start varchar(20),end varchar(20),record integer)";
+        String createActionsSql="create table actions(id integer primary key autoincrement,name varchar(20),content text,start varchar(20),end varchar(20),record integer)";
         db.execSQL(createActionsSql);
     }
 

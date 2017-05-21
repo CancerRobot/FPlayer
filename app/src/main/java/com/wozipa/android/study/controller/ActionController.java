@@ -2,6 +2,7 @@ package com.wozipa.android.study.controller;
 
 import android.app.Service;
 
+import com.wozipa.android.study.model.Action;
 import com.wozipa.android.study.service.ActionService;
 
 import org.apache.log4j.Logger;
@@ -16,9 +17,18 @@ public class ActionController {
 
     private ActionService service=null;
 
-    public void create(String name,String content,String start,String time,String reward)
+    public ActionController()
     {
+        service=new ActionService();
+    }
 
+    public Action create(String name,String content,String start,String end,String reward)
+    {
+        Action action=new Action(name,content,start,end,Integer.parseInt(reward));
+
+        int id=service.create(action);
+        action.setId(id);
+        return action;
     }
 
     public void delete()
@@ -30,5 +40,11 @@ public class ActionController {
     {
 
     }
+
+    public Action[] listUndone()
+    {
+        return service.list();
+    }
+
 
 }

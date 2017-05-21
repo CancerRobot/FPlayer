@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.database.MySqlLite;
+import com.wozipa.android.study.ui.id.ActivityIds;
 
 import static android.R.attr.id;
 
@@ -36,5 +37,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MySqlLite.initlie(MainActivity.this,"fplayer",null,1);
+        if(MySqlLite.GetSqlLite().getWritableDatabase()==null)
+        {
+            System.out.println("the database is null");
+        }
+        System.out.println("初始化数据库");
     }
 }
