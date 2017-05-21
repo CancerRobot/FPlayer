@@ -1,12 +1,18 @@
 package com.wozipa.android.study.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.wozipa.android.study.R;
+import com.wozipa.android.study.database.MySqlLite;
+
 import static android.R.attr.id;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,5 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        MySqlLite.initlie(MainActivity.this,"fplayer",null,1);
     }
 }
