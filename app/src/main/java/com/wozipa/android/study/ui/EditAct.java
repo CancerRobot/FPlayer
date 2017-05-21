@@ -110,6 +110,7 @@ public class EditAct extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     public Action getIndexApiAction() {
+
         Thing object = new Thing.Builder()
                 .setName("EditAct Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
