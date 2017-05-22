@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Study1</string>
+    <string name="app_name">kidClock</string>
     <string name="title_activity_index">IndexActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
