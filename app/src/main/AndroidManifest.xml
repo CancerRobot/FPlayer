@@ -67,6 +67,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".ui.receive.AlarmReceive">
+            <intent-filter>
+                <action android:name="MYALARMRECEIVER" />
+            </intent-filter>
+        </receiver>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -75,7 +81,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ui.ActionListItem"></activity>
+        <activity android:name=".ui.ActionListItem" />
+        <activity android:name=".ui.util.DateTimePickerActivity"></activity>
     </application>
 
 </manifest>

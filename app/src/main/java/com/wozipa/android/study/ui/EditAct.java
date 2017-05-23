@@ -1,6 +1,9 @@
 package com.wozipa.android.study.ui;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -17,9 +21,15 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.ui.id.ActivityIds;
+import com.wozipa.android.study.ui.util.DateTimePickDialogUtil;
+import com.wozipa.android.study.util.StringUtils;
 import com.wozipa.android.study.util.Utils;
-
 import org.apache.log4j.Logger;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class EditAct extends AppCompatActivity {
     /**
@@ -28,6 +38,9 @@ public class EditAct extends AppCompatActivity {
      */
 
     private static final Logger LOGGER=Logger.getLogger(EditAct.class);
+
+    private String initStartDateTime = "2017年1月1日 12:00"; // 初始化开始时间
+    private String initEndDateTime = "2017年1月1日 12:00"; // 初始化结束时间
 
     public static final String ACTION_ID="action_id";
     public static final String ACTION_NAME="action_name";
@@ -42,9 +55,7 @@ public class EditAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_act);
-
         System.out.println("start to make the action page");
-
         final EditText nameEt = (EditText) findViewById(R.id.nameET);
         final EditText contentEt = (EditText) findViewById(R.id.contentET);
         final EditText startEt = (EditText) findViewById(R.id.startET);
@@ -57,15 +68,9 @@ public class EditAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("the start edit text is clicked");
-               new DatePickerDialog(EditAct.this, new DatePickerDialog.OnDateSetListener() {
-                   @Override
-                   public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                       StringBuilder sb=new StringBuilder();
-                       sb.append(year).append("-").append(month).append("-").append(dayOfMonth);
-                       char[] result=sb.toString().toCharArray();
-                       startEt.setText(result,0,result.length);
-                   }
-               },2017,1,1).show();
+                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+                        EditAct.this, initEndDateTime);
+                dateTimePicKDialog.dateTimePicKDialog(startEt);
             }
         });
 
@@ -73,15 +78,10 @@ public class EditAct extends AppCompatActivity {
         endEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(EditAct.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        StringBuilder sb=new StringBuilder();
-                        sb.append(year).append("-").append(month).append("-").append(dayOfMonth);
-                        char[] result=sb.toString().toCharArray();
-                        endEt.setText(result,0,result.length);
-                    }
-                },2017,1,1).show();
+                System.out.println("the start edit text is clicked");
+                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+                        EditAct.this, initEndDateTime);
+                dateTimePicKDialog.dateTimePicKDialog(endEt);
             }
         });
 
@@ -103,6 +103,20 @@ public class EditAct extends AppCompatActivity {
                 }
                 //
                 com.wozipa.android.study.model.Action action=actionController.create(name,content,start,end,record);
+                //set one alarm for start
+                AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                try {
+                    Date date=sdf.parse(action.getStart());
+                    Intent alarmIntent=new Intent();
+                    alarmIntent.setAction("com.Android.AlarmManager.action.BACK_ACTION");
+                    alarmIntent.putExtra("Message", "任务"+action.getName()+"开始进行计时");
+                    alarmManager.set(AlarmManager.RTC,date.getTime(), PendingIntent.getBroadcast(EditAct.this, 0,alarmIntent,0));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //
                 Intent intent=getIntent();
                 intent.putExtra(ACTION_ID,action.getId());
                 intent.putExtra(ACTION_NAME,action.getName());
