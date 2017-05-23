@@ -47,6 +47,24 @@ public class HomeActActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_act);
 
+        ImageView imageView1= (ImageView) findViewById(R.id.act_head_clock);
+        imageView1.setImageResource(R.drawable.clock);
+
+        ImageView imageView2= (ImageView) findViewById(R.id.act_head_gift);
+        imageView2.setImageResource(R.drawable.gift);
+
+        ImageView imageView3= (ImageView) findViewById(R.id.act_head_notify);
+        imageView3.setImageResource(R.drawable.notify1);
+
+        ImageView imageView4= (ImageView) findViewById(R.id.act_clock_img);
+        imageView4.setImageResource(R.drawable.time2);
+
+        ImageView imageView5= (ImageView) findViewById(R.id.act_create_img);
+        imageView5.setImageResource(R.drawable.createpage);
+
+        ImageView imageView6= (ImageView) findViewById(R.id.act_BE_img);
+        imageView6.setImageResource(R.drawable.time1);
+
         listView = (ListView) findViewById(R.id.actionList);
         adapater=new ActionsAdapater();
         listView.setAdapter(adapater);

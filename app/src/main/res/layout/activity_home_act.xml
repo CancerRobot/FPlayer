@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,26 +11,47 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/act_head_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/clock" />
+
         <Button
             android:id="@+id/home_act_2_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="活动" />
+            android:text="活动"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/act_head_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/gift" />
 
         <Button
             android:id="@+id/home_act_2_award"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="奖励" />
+            android:text="奖励"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/act_head_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/notify1" />
 
         <Button
             android:id="@+id/home_act_2_punish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="惩罚" />
+            android:text="惩罚"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <Chronometer
@@ -40,13 +63,24 @@
         android:layout_below="@+id/RelativeLayout"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:id="@+id/act_clock_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/RelativeLayout2"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/RelativeLayout"
+        android:layout_marginStart="49dp"
+        app:srcCompat="@drawable/time2" />
+
     <LinearLayout
         android:id="@+id/RelativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/chronometer1"
-        android:layout_alignParentStart="true">
+        android:background="@android:drawable/button_onoff_indicator_on"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView1"
@@ -93,7 +127,8 @@
         android:layout_above="@+id/RelativeLayout3"
         android:layout_below="@+id/RelativeLayout2"
         android:layout_centerHorizontal="true"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:background="@android:color/holo_blue_bright" />
 
     <LinearLayout
         android:id="@+id/RelativeLayout3"
@@ -103,6 +138,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
+        <ImageView
+            android:id="@+id/act_create_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/createpage" />
+
         <Button
             android:id="@+id/home_act_create"
             android:layout_width="wrap_content"
@@ -110,6 +151,12 @@
             android:layout_weight="2"
             android:text="新建"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/act_BE_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/time1" />
 
         <Button
             android:id="@+id/home_act_count"

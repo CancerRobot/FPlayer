@@ -23,7 +23,7 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="57dp"
+            android:layout_marginTop="55dp"
             android:text="奖励名称："
             android:textSize="25sp"
             android:layout_alignParentTop="true"
@@ -35,9 +35,9 @@
             android:layout_height="wrap_content"
             android:text="奖励内容："
             android:textSize="25sp"
-            android:layout_alignBaseline="@+id/editText9"
-            android:layout_alignBottom="@+id/editText9"
-            android:layout_toStartOf="@+id/editText9" />
+            android:layout_alignBaseline="@+id/award_content"
+            android:layout_alignBottom="@+id/award_content"
+            android:layout_toStartOf="@+id/award_content" />
 
         <TextView
             android:id="@+id/textView20"
@@ -45,39 +45,40 @@
             android:layout_height="wrap_content"
             android:text="兑换点数："
             android:textSize="25sp"
-            android:layout_alignBaseline="@+id/editText6"
-            android:layout_alignBottom="@+id/editText6"
-            android:layout_toStartOf="@+id/editText6" />
+            android:layout_alignBaseline="@+id/award_cost"
+            android:layout_alignBottom="@+id/award_cost"
+            android:layout_toStartOf="@+id/award_cost" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/award_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            android:layout_alignTop="@+id/textView18"
+            android:layout_alignBaseline="@+id/textView18"
+            android:layout_alignBottom="@+id/textView18"
             android:layout_toEndOf="@+id/textView18" />
 
         <EditText
-            android:id="@+id/editText9"
+            android:id="@+id/award_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            android:layout_below="@+id/editText6"
+            android:layout_below="@+id/award_cost"
             android:layout_toEndOf="@+id/textView20" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/award_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            android:layout_below="@+id/editText5"
-            android:layout_alignStart="@+id/editText5" />
+            android:layout_below="@+id/award_name"
+            android:layout_alignStart="@+id/award_name" />
 
     </RelativeLayout>
 
