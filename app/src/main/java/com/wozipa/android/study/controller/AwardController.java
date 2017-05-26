@@ -18,7 +18,7 @@ public class AwardController {
     public AwardController(){ service=new AwardService(); }
 
     public Award create(String name, String cost, String content){
-        Award award=new Award(name,cost,content);
+        Award award=new Award(name,Integer.parseInt(cost),content);
 
         int id=service.create(award);
         award.setId(id);
@@ -36,4 +36,5 @@ public class AwardController {
     public Award[] listUndone(){
         return service.list();
     }
+
 }

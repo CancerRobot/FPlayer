@@ -1,7 +1,6 @@
 package com.wozipa.android.study.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,18 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
-import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.util.Utils;
 import com.wozipa.android.study.controller.AwardController;
 import com.wozipa.android.study.ui.id.AwardIds;
 
-import java.util.logging.Logger;
-
 public class EditAward extends AppCompatActivity {
-    private static final Logger LOGGER=Logger.getLogger(EditAward.class);
 
     public static final String AWARD_ID="award_id";
     public static final String AWARD_NAME="award_name";
@@ -75,34 +69,34 @@ public class EditAward extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public Award getIndexApiAction() {
-
-        Thing object = new Thing.Builder()
-                .setName("EditAct Page")
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Award.Builder(Award.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Award.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-        awardController=new AwardController();
-    }
-
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
+//    public Award getIndexApiAction() {
+//
+//        Thing object = new Thing.Builder()
+//                .setName("EditAct Page")
+//                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+//                .build();
+//        return new Award.Builder(Award.TYPE_VIEW)
+//                .setObject(object)
+//                .setActionStatus(Award.STATUS_TYPE_COMPLETED)
+//                .build();
+//    }
+//
+//    public void onStart() {
+//        super.onStart();
+//
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client.connect();
+//        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+//        awardController=new AwardController();
+//    }
+//
+//    public void onStop() {
+//        super.onStop();
+//
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+//        client.disconnect();
+//    }
 }

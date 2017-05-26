@@ -1,14 +1,14 @@
 package com.wozipa.android.study.model;
 
 /**
- * Created by Administrator on 2017/5/23.
+ * Created by xinglinjie on 2017/5/26.
  */
 
-public class Award {
+public class Punish {
 
-    public Award(){};
+    public Punish(){};
 
-    public Award(String name, int cost, String content){
+    public Punish(String name, int cost, String content){
         this.name=name;
         this.cost=cost;
         this.content=content;
@@ -53,7 +53,7 @@ public class Award {
 
     @Override
     public String toString() {
-        return "Award{" +
+        return "Punish{" +
                 "id=" + id +
                 ", name='" + name +
                 ", cost=" + cost +
