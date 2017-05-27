@@ -8,10 +8,10 @@
     <TextView
         android:id="@+id/action_id"
         android:layout_width="0pt"
-        android:layout_weight="1"
         android:layout_height="15pt"
+        android:layout_weight="1"
         android:gravity="center_vertical"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/action_name"
@@ -23,12 +23,12 @@
         />
 
     <TextView
-        android:id="@+id/action_content"
+        android:id="@+id/action_record"
         android:layout_width="0pt"
+        android:layout_height="15pt"
         android:layout_weight="2"
-        android:textAlignment="center"
         android:gravity="center_vertical"
-        android:layout_height="15pt" />
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/action_time"

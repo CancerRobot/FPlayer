@@ -3,6 +3,7 @@ package com.wozipa.android.study.ui;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.ui.util.DateTimePickDialogUtil;
+import com.wozipa.android.study.ui.util.TimePickerDialogUtil;
 import com.wozipa.android.study.util.StringUtils;
 import com.wozipa.android.study.util.Utils;
 import org.apache.log4j.Logger;
@@ -41,6 +43,9 @@ public class EditAct extends AppCompatActivity {
 
     private String initStartDateTime = "2017年1月1日 12:00"; // 初始化开始时间
     private String initEndDateTime = "2017年1月1日 12:00"; // 初始化结束时间
+
+    private String initStartTime = "12:00";
+    private String initEndTime = "12:00";
 
     public static final String ACTION_ID="action_id";
     public static final String ACTION_NAME="action_name";
@@ -68,8 +73,11 @@ public class EditAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("the start edit text is clicked");
+//                TimePickerDialogUtil timePickerDialog = new TimePickerDialogUtil(
+//                        EditAct.this, initStartTime);
+//                timePickerDialog.timePicKDialog(startEt);
                 DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
-                        EditAct.this, initEndDateTime);
+                        EditAct.this, initStartDateTime);
                 dateTimePicKDialog.dateTimePicKDialog(startEt);
             }
         });

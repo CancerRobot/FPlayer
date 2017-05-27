@@ -224,15 +224,15 @@ public class HomeActActivity extends AppCompatActivity {
             nameTv.setText(nameCs,0,nameCs.length);
             nameTv.setTextSize(20);
 
-            TextView contentTv = (TextView)view.findViewById(R.id.action_content);
-            char[] contentCs=m.getContent().toCharArray();
-            contentTv.setText(contentCs,0,contentCs.length);
-            contentTv.setTextSize(20);
+            TextView recordTv = (TextView)view.findViewById(R.id.action_record);
+            char[] recordCs=Integer.toString(m.getRecord()).toCharArray();
+            recordTv.setText(recordCs,0,recordCs.length);
+            recordTv.setTextSize(20);
 
-            TextView endTv= (TextView) view.findViewById(R.id.action_time);
-            char[] endCs=m.getEnd().toCharArray();
-            endTv.setText(endCs,0,endCs.length);
-            endTv.setTextSize(20);
+            TextView startTv= (TextView) view.findViewById(R.id.action_time);
+            char[] startCs=m.getStart().toCharArray();
+            startTv.setText(startCs,0,startCs.length);
+            startTv.setTextSize(20);
 
             return view;
         }

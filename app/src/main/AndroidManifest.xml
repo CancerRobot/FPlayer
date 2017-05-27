@@ -82,7 +82,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ui.ActionListItem" />
+        <activity android:name=".ui.AwardListItem" />
+        <activity android:name=".ui.PunishListItem" />
         <activity android:name=".ui.util.DateTimePickerActivity"></activity>
+        <activity android:name=".ui.util.TimePickerActivity"></activity>
     </application>
 
 </manifest>
