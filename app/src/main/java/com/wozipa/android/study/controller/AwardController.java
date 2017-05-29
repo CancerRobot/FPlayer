@@ -19,18 +19,25 @@ public class AwardController {
 
     public Award create(String name, String cost, String content){
         Award award=new Award(name,Integer.parseInt(cost),content);
-
         int id=service.create(award);
         award.setId(id);
         return award;
     }
 
-    public void delete(){
-
+    public boolean delete(Award award){
+        try {
+            service.delete(award);
+            return true;
+        }
+        catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public void edit(String name,int cost,String content){
-
+    public void edit(Award award){
+        service.edit(award);
     }
 
     public Award[] listUndone(){

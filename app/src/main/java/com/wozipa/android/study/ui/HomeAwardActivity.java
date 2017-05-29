@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,19 +22,29 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.AwardController;
 import com.wozipa.android.study.model.Award;
-import com.wozipa.android.study.service.AwardService;
-import com.wozipa.android.study.ui.id.AwardIds;
+import com.wozipa.android.study.ui.id.ActivityIds;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HomeAwardActivity extends AppCompatActivity  {
+
+    private static final Logger LOGGER=Logger.getLogger(HomeAwardActivity.class);
+
+    public static final String INTENT_MODE="intent.mode";
+    public static final String CREATE_MODE="createMode";
+    public static final String CHANGE_MODE="changeMode";
 
     private ListView listView=null;
     private List<Award> awardList=new ArrayList<Award>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
     private AwardsAdapater adapater=null;
+    private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private AwardController controller=new AwardController();
     /**
@@ -62,7 +74,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
         ImageView imageView5= (ImageView) findViewById(R.id.award_delete_img);
         imageView5.setImageResource(R.drawable.remove);
 
-        Button button1=(Button)findViewById(R.id.home_award_2_act);
+        final Button button1=(Button)findViewById(R.id.home_award_2_act);
         button1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent=new Intent(getApplicationContext(),HomeActActivity.class);
@@ -78,26 +90,86 @@ public class HomeAwardActivity extends AppCompatActivity  {
             }
         });
 
+        //
+        Button createBtn= (Button) findViewById(R.id.home_award_create);
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("click the item");
+                Intent intent = new Intent(getApplicationContext(), EditAward.class);
+                intent.putExtra(INTENT_MODE,CREATE_MODE);
+                startActivityForResult(intent, ActivityIds.AWRAD_CREATW);
+            }
+        });
+
+        Button deleteBtn= (Button) findViewById(R.id.home_award_delete);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Set<Integer> keySet=checkBoxState.keySet();
+                for(Integer position:keySet)
+                {
+                    Award award= (Award) adapater.getItem(position);
+                    boolean result=controller.delete(award);
+                    if(result)
+                    {
+                        awardList.remove(award);
+                    }
+                }
+                adapater.notifyDataSetChanged();
+            }
+        });
+
+        listView= (ListView) findViewById(R.id.awradListView);
+        adapater=new AwardsAdapater();
+        listView.setAdapter(adapater);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("click the item");
+                Intent intent = new Intent(getApplicationContext(), EditAward.class);
+                Award award= (Award) adapater.getItem(position);
+                awardList.remove(award);
+                intent.putExtra(INTENT_MODE,CHANGE_MODE);
+                intent.putExtra(EditAward.AWARD_ID,award.getId());
+                intent.putExtra(EditAward.AWARD_NAME,award.getName());
+                intent.putExtra(EditAward.AWARD_CONTENT,award.getContent());
+                intent.putExtra(EditAward.AWARD_COST,award.getCost());
+                startActivityForResult(intent, ActivityIds.AWRAD_CREATW);
+            }
+        });
+        //init the value of the data
+        Award[] awards=controller.listUndone();
+        for(Award award:awards)
+        {
+            awardList.add(award);
+        }
+        adapater.notifyDataSetChanged();
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if(data==null)
+        {
+            return;
+        }
         Bundle b=data.getExtras();
-        if (resultCode == AwardIds.CREATE_AWARD) {
-            Award award=new Award();
-            award.setId(b.getInt(EditAward.AWARD_ID));
-            award.setName(b.getString(EditAward.AWARD_NAME));
-            award.setCost(b.getInt(EditAward.AWARD_COST));
-            award.setContent(b.getString(EditAward.AWARD_CONTENT));
+        if(resultCode==ActivityIds.AWRAD_CREATW)
+        {
+            //when add or edit the award result
+            int awardId=b.getInt(EditAward.AWARD_ID);
+            String awardName=b.getString(EditAward.AWARD_NAME);
+            String awardContent=b.getString(EditAward.AWARD_CONTENT);
+            int awardCost=b.getInt(EditAward.AWARD_COST);
+            Award award=new Award(awardName,awardCost,awardContent);
+            award.setId(awardId);
             awardList.add(award);
-//            HashMap row=new HashMap<String,Object>();
-//            row.put(R.id.award_id,award.getId());
-//            row.put(R.id.award_name,award.getName());
-//            row.put(R.id.award_cost,award.getCost());
-//            row.put(R.id.award_content,award.getContent());
-//            rowList.add(row);
             adapater.notifyDataSetChanged();
         }
     }
@@ -182,7 +254,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = null;
             //布局不变，数据变
             //如果缓存为空，我们生成新的布局作为1个item
@@ -197,9 +269,17 @@ public class HomeAwardActivity extends AppCompatActivity  {
             System.out.println(m.toString());
 
             CheckBox cbx = (CheckBox)view.findViewById(R.id.award_checkBox);
-            cbx.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    //TODO:
+            cbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked)
+                    {
+                        checkBoxState.put(position,true);
+                    }
+                    else
+                    {
+                        checkBoxState.remove(position);
+                    }
                 }
             });
 

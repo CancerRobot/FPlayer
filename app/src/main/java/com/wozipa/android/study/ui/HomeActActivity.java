@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -93,13 +94,19 @@ public class HomeActActivity extends AppCompatActivity {
                 startActivityForResult(intent, ActivityIds.CREATE_ACT);
             }
         });
+        //add click listern to listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
         //
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Bundle b=data.getExtras();
         if (resultCode == ActivityIds.CREATE_ACT) {
             Action action=new Action();
@@ -110,13 +117,11 @@ public class HomeActActivity extends AppCompatActivity {
             action.setEnd(b.getString(EditAct.ACTION_END));
             action.setRecord(b.getInt(EditAct.ACTION_RECORD));
             actionList.add(action);
-//            HashMap row=new HashMap<String,Object>();
-//            row.put(R.id.action_id,action.getId());
-//            row.put(R.id.action_name,action.getName());
-//            row.put(R.id.action_content,action.getContent());
-//            row.put(R.id.action_time,action.getEnd());
-//            rowList.add(row);
             adapater.notifyDataSetChanged();
+        }
+        else if(resultCode==ActivityIds.AWRAD_CREATW)
+        {
+
         }
     }
 

@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         {
             System.out.println("the database is null");
         }
+        SQLiteDatabase db=MySqlLite.GetSqlLite().getWritableDatabase();
+//        String createAwardsSql="create table awards(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
+//        db.execSQL(createAwardsSql);
         System.out.println("初始化数据库");
     }
 }

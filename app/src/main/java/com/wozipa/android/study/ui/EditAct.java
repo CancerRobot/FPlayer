@@ -120,7 +120,6 @@ public class EditAct extends AppCompatActivity {
                     alarmIntent.setAction("com.Android.AlarmManager.action.BACK_ACTION");
                     alarmIntent.putExtra("Message", "任务"+action.getName()+"开始进行计时");
                     alarmManager.set(AlarmManager.RTC,date.getTime(), PendingIntent.getBroadcast(EditAct.this, 0,alarmIntent,0));
-
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -132,7 +131,7 @@ public class EditAct extends AppCompatActivity {
                 intent.putExtra(ACTION_START,action.getStart());
                 intent.putExtra(ACTION_END,action.getEnd());
                 intent.putExtra(ACTION_RECORD,action.getRecord());
-                setResult(ActivityIds.CREATE_ACT,intent);
+                setResult(ActivityIds.AWRAD_CREATW,intent);
                 EditAct.this.finish();
             }
         });

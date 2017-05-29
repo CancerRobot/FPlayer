@@ -12,8 +12,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
-import com.wozipa.android.study.model.Punish;
-import com.wozipa.android.study.ui.id.PunishIds;
+import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.util.Utils;
 
 public class EditPunish extends AppCompatActivity {
@@ -54,7 +53,7 @@ public class EditPunish extends AppCompatActivity {
                 intent.putExtra(PUNISH_NAME,punish.getName());
                 intent.putExtra(PUNISH_COST,punish.getCost());
                 intent.putExtra(PUNISH_CONTENT,punish.getContent());
-                setResult(PunishIds.CREATE_PUNISH,intent);
+                setResult(ActivityIds.CREATE_PUNISH,intent);
                 EditPunish.this.finish();
             }
         });

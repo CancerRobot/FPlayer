@@ -20,7 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
 import com.wozipa.android.study.model.Punish;
-import com.wozipa.android.study.ui.id.PunishIds;
+import com.wozipa.android.study.ui.id.ActivityIds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class HomePunishActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Bundle b=data.getExtras();
-        if (resultCode == PunishIds.CREATE_PUNISH) {
+        if (resultCode == ActivityIds.CREATE_PUNISH) {
             Punish punish=new Punish();
             punish.setId(b.getInt(EditPunish.PUNISH_ID));
             punish.setName(b.getString(EditPunish.PUNISH_NAME));

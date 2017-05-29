@@ -21,15 +21,21 @@ public class AwardService {
 
     public int create(Award award){
         int id=dao.create(award);
+        System.out.println("the id value is "+id);
         return id;
     }
 
-    public void delete(){
-
+    public void delete(Award award) {
+        int id=award.getId();
+        if(id<=0)
+        {
+            throw new NullPointerException("the id value is null");
+        }
+        dao.delete(award.getId());
     }
 
-    public void edit(){
-
+    public void edit(Award award){
+        dao.edit(award.getId(),award.getName(),award.getContent(),award.getCost());
     }
 
     public Award[] list(){

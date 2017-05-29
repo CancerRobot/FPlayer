@@ -8,4 +8,6 @@ public class ActivityIds {
 
     public static final int MAIN=1;
     public static final int CREATE_ACT=2;
+    public static final int AWRAD_CREATW=3;
+    public static final int CREATE_PUNISH=4;
 }
