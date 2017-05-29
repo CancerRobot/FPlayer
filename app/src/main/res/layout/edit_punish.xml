@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="10pt">
 
     <TextView
         android:id="@+id/textView21"
@@ -16,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linearLayout7"
-        android:layout_below="@+id/textView13">
+        android:layout_below="@+id/textView13"
+        >
 
         <TextView
             android:id="@+id/textView18"
@@ -32,9 +34,9 @@
             android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/award_content"
-            android:layout_alignBottom="@+id/award_content"
-            android:layout_toStartOf="@+id/award_content"
+            android:layout_alignBaseline="@+id/punish_content"
+            android:layout_alignBottom="@+id/punish_content"
+            android:layout_toStartOf="@+id/punish_content"
             android:text="惩罚内容："
             android:textSize="25sp" />
 
@@ -42,9 +44,9 @@
             android:id="@+id/textView20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/award_cost"
-            android:layout_alignBottom="@+id/award_cost"
-            android:layout_toStartOf="@+id/award_cost"
+            android:layout_alignBaseline="@+id/punish_cost"
+            android:layout_alignBottom="@+id/punish_cost"
+            android:layout_toStartOf="@+id/punish_cost"
             android:text="消耗点数："
             android:textSize="25sp" />
 
@@ -56,27 +58,27 @@
             android:layout_toEndOf="@+id/textView18"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            />
 
         <EditText
             android:id="@+id/punish_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/award_cost"
+            android:layout_below="@+id/punish_cost"
             android:layout_toEndOf="@+id/textView20"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            />
 
         <EditText
             android:id="@+id/punish_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/award_name"
-            android:layout_below="@+id/award_name"
+            android:layout_alignStart="@+id/punish_name"
+            android:layout_below="@+id/punish_name"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+             />
 
     </RelativeLayout>
 

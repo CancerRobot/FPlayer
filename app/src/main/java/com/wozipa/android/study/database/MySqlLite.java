@@ -36,8 +36,10 @@ public class MySqlLite extends SQLiteOpenHelper{
         System.out.println("create the tables need");
         String createActionsSql="create table actions(id integer primary key autoincrement,name varchar(20),content text,start varchar(20),end varchar(20),record integer)";
         db.execSQL(createActionsSql);
-        String createAwardsSql="create table awards(id integer primart key autoincrement,name varchar(20),cost integer,content text)";
+        String createAwardsSql="create table awards(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
         db.execSQL(createAwardsSql);
+        String createPunishSql="create table punishs(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
+        db.execSQL(createPunishSql);
     }
 
     @Override

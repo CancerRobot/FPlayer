@@ -1,5 +1,6 @@
 package com.wozipa.android.study.controller;
 
+import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.service.PunishService;
 
@@ -19,18 +20,17 @@ public class PunishController {
 
     public Punish create(String name, String cost, String content){
         Punish punish=new Punish(name,Integer.parseInt(cost),content);
-
         int id=service.create(punish);
         punish.setId(id);
         return punish;
     }
 
-    public void delete(){
-
+    public void delete(Punish punish){
+        service.delete(punish);
     }
 
-    public void edit(String name,int cost,String content){
-
+    public void edit(Punish punish){
+        service.edit(punish);
     }
 
     public Punish[] listUndone(){

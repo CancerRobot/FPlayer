@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,19 +21,27 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
+import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.ui.id.ActivityIds;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HomePunishActivity extends AppCompatActivity  {
+
+    public static final String INTENT_MODE="intent.mode";
+    public static final String CREATE_MODE="create";
+    public static final String CHANGE_MODE="change";
 
     private ListView listView=null;
     private List<Punish> punishList=new ArrayList<Punish>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
     private PunishesAdapater adapater=null;
+    private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private PunishController controller=new PunishController();
     /**
@@ -77,13 +87,69 @@ public class HomePunishActivity extends AppCompatActivity  {
             }
         });
 
+        //get the creat button and  add click listern to it
+        Button createBtn= (Button) findViewById(R.id.home_punish_create);
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),EditPunish.class);
+                intent.putExtra(INTENT_MODE,CREATE_MODE);
+                startActivityForResult(intent,ActivityIds.CREATE_PUNISH);
+            }
+        });
+
+        Button deleteBtn= (Button) findViewById(R.id.home_punish_delete);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Set<Integer> keys=checkBoxState.keySet();
+                for(Integer pos:keys)
+                {
+                    Punish punish= (Punish) adapater.getItem(pos);
+                    controller.delete(punish);
+                }
+                adapater.notifyDataSetChanged();;
+            }
+        });
+
+        //init the list view and configuration it
+        listView= (ListView) findViewById(R.id.home_punish_listview);
+        adapater=new PunishesAdapater();
+        listView.setAdapter(adapater);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("click the item");
+                Intent intent = new Intent(getApplicationContext(), EditPunish.class);
+                Punish punish= (Punish) adapater.getItem(position);
+                punishList.remove(punish);
+                intent.putExtra(INTENT_MODE,CHANGE_MODE);
+                intent.putExtra(EditPunish.PUNISH_ID,punish.getId());
+                intent.putExtra(EditPunish.PUNISH_NAME,punish.getName());
+                intent.putExtra(EditPunish.PUNISH_CONTENT,punish.getContent());
+                intent.putExtra(EditPunish.PUNISH_COST,punish.getCost());
+                startActivityForResult(intent, ActivityIds.CREATE_PUNISH);
+            }
+        });
+        Punish[] punishes=controller.listUndone();
+        for(Punish punish:punishes)
+        {
+            punishList.add(punish);
+        }
+        adapater.notifyDataSetChanged();
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        System.out.println("the result is start");
+        if(data==null)
+        {
+            return;
+        }
         Bundle b=data.getExtras();
+
         if (resultCode == ActivityIds.CREATE_PUNISH) {
             Punish punish=new Punish();
             punish.setId(b.getInt(EditPunish.PUNISH_ID));
@@ -91,12 +157,6 @@ public class HomePunishActivity extends AppCompatActivity  {
             punish.setCost(b.getInt(EditPunish.PUNISH_COST));
             punish.setContent(b.getString(EditPunish.PUNISH_CONTENT));
             punishList.add(punish);
-//            HashMap row=new HashMap<String,Object>();
-//            row.put(R.id.punish_id,punish.getId());
-//            row.put(R.id.punish_name,punish.getName());
-//            row.put(R.id.punish_cost,punish.getCost());
-//            row.put(R.id.punish_content,punish.getContent());
-//            rowList.add(row);
             adapater.notifyDataSetChanged();
         }
     }
@@ -181,7 +241,7 @@ public class HomePunishActivity extends AppCompatActivity  {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = null;
             //布局不变，数据变
             //如果缓存为空，我们生成新的布局作为1个item
@@ -196,9 +256,17 @@ public class HomePunishActivity extends AppCompatActivity  {
             System.out.println(m.toString());
 
             CheckBox cbx = (CheckBox)view.findViewById(R.id.punish_checkBox);
-            cbx.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    //TODO:
+            cbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                    {
+                        checkBoxState.put(position,true);
+                    }
+                    else
+                    {
+                        checkBoxState.remove(position);
+                    }
                 }
             });
 

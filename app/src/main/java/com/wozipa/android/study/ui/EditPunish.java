@@ -12,6 +12,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
+import com.wozipa.android.study.model.Award;
+import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.util.Utils;
 
@@ -30,10 +32,21 @@ public class EditPunish extends AppCompatActivity {
         setContentView(R.layout.edit_punish);
 
         System.out.println("start to edit the punish page");
-
+        punishController=new PunishController();
+        final String mode=getIntent().getStringExtra(HomePunishActivity.INTENT_MODE);
         final EditText punish_name=(EditText)findViewById(R.id.punish_name);
         final EditText punish_cost=(EditText)findViewById(R.id.punish_cost);
         final EditText punish_content=(EditText)findViewById(R.id.punish_content);
+        Bundle bundle=getIntent().getExtras();
+        if(bundle!=null && !bundle.isEmpty())
+        {
+            char[] name=bundle.getString(PUNISH_NAME).toCharArray();
+            punish_name.setText(name,0,name.length);
+            char[] cost=String.valueOf(bundle.getInt(PUNISH_COST)).toCharArray();
+            punish_cost.setText(cost,0,cost.length);
+            char[] content=bundle.getString(PUNISH_CONTENT).toCharArray();
+            punish_content.setText(content,0,content.length);
+        }
 
         Button finishBtn=(Button)findViewById(R.id.edit_punish_finish);
         finishBtn.setOnClickListener(new View.OnClickListener(){
@@ -47,7 +60,19 @@ public class EditPunish extends AppCompatActivity {
                 if(!flag){
                     new AlertDialog.Builder(EditPunish.this).setTitle("错误").setMessage("请将参数填写完整").show();
                 }
-                com.wozipa.android.study.model.Punish punish=punishController.create(name,cost,content);
+                Punish punish=null;
+                if(mode.equals(HomePunishActivity.CREATE_MODE))
+                {
+                    punish=punishController.create(name,cost,content);
+                }
+                else if(mode.equals(HomePunishActivity.CHANGE_MODE))
+                {
+                    System.out.println(cost);
+                    int id=getIntent().getExtras().getInt(PUNISH_ID);
+                    punish=new Punish(name,Integer.parseInt(cost),content);
+                    punish.setId(id);
+                    punishController.edit(punish);
+                }
                 Intent intent=getIntent();
                 intent.putExtra(PUNISH_ID,punish.getId());
                 intent.putExtra(PUNISH_NAME,punish.getName());

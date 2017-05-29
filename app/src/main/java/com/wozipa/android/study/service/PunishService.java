@@ -25,11 +25,12 @@ public class PunishService {
         return id;
     }
 
-    public void delete(){
-
+    public void delete(Punish punish){
+        dao.delete(punish.getId());
     }
 
-    public void edit(){
+    public void edit(Punish punish){
+        dao.edit(punish.getId(),punish.getName(),punish.getContent(),punish.getCost());
 
     }
 
