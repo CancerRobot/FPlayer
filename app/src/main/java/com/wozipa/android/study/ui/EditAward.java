@@ -80,7 +80,7 @@ public class EditAward extends AppCompatActivity {
                 intent.putExtra(AWARD_NAME,award.getName());
                 intent.putExtra(AWARD_COST,award.getCost());
                 intent.putExtra(AWARD_CONTENT,award.getContent());
-                setResult(ActivityIds.AWRAD_CREATW,intent);
+                setResult(ActivityIds.CREATE_AWARD,intent);
                 EditAward.this.finish();
             }
         });
