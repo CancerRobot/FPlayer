@@ -2,8 +2,8 @@ package com.wozipa.android.study.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +20,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.model.Action;
-import com.wozipa.android.study.service.ActionService;
 import com.wozipa.android.study.ui.id.ActivityIds;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class HomeActActivity extends AppCompatActivity {
 
@@ -87,8 +84,8 @@ public class HomeActActivity extends AppCompatActivity {
             }
         });
 
-        Button button3 = (Button) findViewById(R.id.home_act_create);
-        button3.setOnClickListener(new View.OnClickListener() {
+        Button createBtn = (Button) findViewById(R.id.home_act_create);
+        createBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditAct.class);
                 startActivityForResult(intent, ActivityIds.CREATE_ACT);
@@ -119,7 +116,7 @@ public class HomeActActivity extends AppCompatActivity {
             actionList.add(action);
             adapater.notifyDataSetChanged();
         }
-        else if(resultCode==ActivityIds.AWRAD_CREATW)
+        else if(resultCode==ActivityIds.CREATE_AWARD)
         {
 
         }
