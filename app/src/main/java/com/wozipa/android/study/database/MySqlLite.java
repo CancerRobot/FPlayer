@@ -3,7 +3,6 @@ package com.wozipa.android.study.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.hardware.camera2.DngCreator;
 
 import org.apache.log4j.Logger;
 

@@ -43,7 +43,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
     private ListView listView=null;
     private List<Award> awardList=new ArrayList<Award>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
-    private AwardsAdapater adapater=null;
+    private AwardsAdapter adapter=null;
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private AwardController controller=new AwardController();
@@ -90,7 +90,6 @@ public class HomeAwardActivity extends AppCompatActivity  {
             }
         });
 
-        //
         Button createBtn= (Button) findViewById(R.id.home_award_create);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +97,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
                 System.out.println("click the item");
                 Intent intent = new Intent(getApplicationContext(), EditAward.class);
                 intent.putExtra(INTENT_MODE,CREATE_MODE);
-                startActivityForResult(intent, ActivityIds.AWRAD_CREATW);
+                startActivityForResult(intent, ActivityIds.CREATE_AWARD);
             }
         });
 
@@ -109,34 +108,34 @@ public class HomeAwardActivity extends AppCompatActivity  {
                 Set<Integer> keySet=checkBoxState.keySet();
                 for(Integer position:keySet)
                 {
-                    Award award= (Award) adapater.getItem(position);
+                    Award award= (Award) adapter.getItem(position);
                     boolean result=controller.delete(award);
                     if(result)
                     {
                         awardList.remove(award);
                     }
                 }
-                adapater.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
 
         listView= (ListView) findViewById(R.id.awradListView);
-        adapater=new AwardsAdapater();
-        listView.setAdapter(adapater);
+        adapter=new AwardsAdapter();
+        listView.setAdapter(adapter);
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("click the item");
                 Intent intent = new Intent(getApplicationContext(), EditAward.class);
-                Award award= (Award) adapater.getItem(position);
+                Award award= (Award) adapter.getItem(position);
                 awardList.remove(award);
                 intent.putExtra(INTENT_MODE,CHANGE_MODE);
                 intent.putExtra(EditAward.AWARD_ID,award.getId());
                 intent.putExtra(EditAward.AWARD_NAME,award.getName());
                 intent.putExtra(EditAward.AWARD_CONTENT,award.getContent());
                 intent.putExtra(EditAward.AWARD_COST,award.getCost());
-                startActivityForResult(intent, ActivityIds.AWRAD_CREATW);
+                startActivityForResult(intent, ActivityIds.CREATE_AWARD);
             }
         });
         //init the value of the data
@@ -145,7 +144,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
         {
             awardList.add(award);
         }
-        adapater.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -160,7 +159,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
             return;
         }
         Bundle b=data.getExtras();
-        if(resultCode==ActivityIds.AWRAD_CREATW)
+        if(resultCode==ActivityIds.CREATE_AWARD)
         {
             //when add or edit the award result
             int awardId=b.getInt(EditAward.AWARD_ID);
@@ -170,7 +169,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
             Award award=new Award(awardName,awardCost,awardContent);
             award.setId(awardId);
             awardList.add(award);
-            adapater.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -228,7 +227,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
 //                row.put(R.id.award_content,award.getContent());
 //                rowList.add(row);
             }
-            adapater.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         else
         {
@@ -236,7 +235,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
         }
     }
 
-    class AwardsAdapater extends BaseAdapter
+    class AwardsAdapter extends BaseAdapter
     {
         @Override
         public int getCount() {

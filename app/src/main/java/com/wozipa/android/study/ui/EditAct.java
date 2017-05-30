@@ -1,10 +1,7 @@
 package com.wozipa.android.study.ui;
 
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,9 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
+
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -23,14 +19,12 @@ import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.ui.util.DateTimePickDialogUtil;
-import com.wozipa.android.study.ui.util.TimePickerDialogUtil;
-import com.wozipa.android.study.util.StringUtils;
 import com.wozipa.android.study.util.Utils;
+
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class EditAct extends AppCompatActivity {
@@ -131,7 +125,7 @@ public class EditAct extends AppCompatActivity {
                 intent.putExtra(ACTION_START,action.getStart());
                 intent.putExtra(ACTION_END,action.getEnd());
                 intent.putExtra(ACTION_RECORD,action.getRecord());
-                setResult(ActivityIds.AWRAD_CREATW,intent);
+                setResult(ActivityIds.CREATE_ACT,intent);
                 EditAct.this.finish();
             }
         });
