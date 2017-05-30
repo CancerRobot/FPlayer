@@ -36,6 +36,7 @@ public class EditAward extends AppCompatActivity {
         System.out.println("start to edit the award page");
         //get the data from the award home page
         awardController=new AwardController();
+
         final EditText award_name=(EditText)findViewById(R.id.award_name);
         final EditText award_cost=(EditText)findViewById(R.id.award_cost);
         final EditText award_content=(EditText)findViewById(R.id.award_content);
