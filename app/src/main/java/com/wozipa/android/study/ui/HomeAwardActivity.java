@@ -96,6 +96,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 System.out.println("click the item");
                 Intent intent = new Intent(getApplicationContext(), EditAward.class);
+//                startActivity(intent);
                 intent.putExtra(INTENT_MODE,CREATE_MODE);
                 startActivityForResult(intent, ActivityIds.CREATE_AWARD);
             }

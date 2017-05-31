@@ -1,18 +1,20 @@
 package com.wozipa.android.study.ui;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
-import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.util.Utils;
@@ -22,7 +24,7 @@ public class EditPunish extends AppCompatActivity {
     public static final String PUNISH_ID="punish_id";
     public static final String PUNISH_NAME="punish_name";
     public static final String PUNISH_COST="punish_cost";
-    public static final String PUNISH_CONTENT="puinsh_content";
+    public static final String PUNISH_CONTENT="punish_content";
 
     private GoogleApiClient client;
     private PunishController punishController=null;
@@ -94,34 +96,34 @@ public class EditPunish extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-//    public Punish getIndexApiAction() {
-//
-//        Thing object = new Thing.Builder()
-//                .setName("EditAct Page")
-//                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-//                .build();
-//        return new Punish.Builder(Punish.TYPE_VIEW)
-//                .setObject(object)
-//                .setActionStatus(Punish.STATUS_TYPE_COMPLETED)
-//                .build();
-//    }
-//
-//    public void onStart() {
-//        super.onStart();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client.connect();
-//        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-//        punishController=new PunishController();
-//    }
-//
-//    public void onStop() {
-//        super.onStop();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-//        client.disconnect();
-//    }
+    public Action getIndexApiAction() {
+
+        Thing object = new Thing.Builder()
+                .setName("EditAct Page")
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+        punishController=new PunishController();
+    }
+
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }

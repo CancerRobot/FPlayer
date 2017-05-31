@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db=MySqlLite.GetSqlLite().getWritableDatabase();
 //        String createAwardsSql="create table awards(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
 //        db.execSQL(createAwardsSql);
-//        String createPunishSql="create table punishs(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
+//        String createPunishSql="create table punishes(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
 //        db.execSQL(createPunishSql);
         System.out.println("初始化数据库");
     }

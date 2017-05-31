@@ -2,8 +2,8 @@ package com.wozipa.android.study.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
-import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.ui.id.ActivityIds;
 
@@ -40,7 +39,7 @@ public class HomePunishActivity extends AppCompatActivity  {
     private ListView listView=null;
     private List<Punish> punishList=new ArrayList<Punish>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
-    private PunishesAdapater adapater=null;
+    private PunishesAdapter adapter=null;
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private PunishController controller=new PunishController();
@@ -87,12 +86,13 @@ public class HomePunishActivity extends AppCompatActivity  {
             }
         });
 
-        //get the creat button and  add click listern to it
+        //get the create button and  add click listener to it
         Button createBtn= (Button) findViewById(R.id.home_punish_create);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),EditPunish.class);
+//                startActivity(intent);
                 intent.putExtra(INTENT_MODE,CREATE_MODE);
                 startActivityForResult(intent,ActivityIds.CREATE_PUNISH);
             }
@@ -105,24 +105,24 @@ public class HomePunishActivity extends AppCompatActivity  {
                 Set<Integer> keys=checkBoxState.keySet();
                 for(Integer pos:keys)
                 {
-                    Punish punish= (Punish) adapater.getItem(pos);
+                    Punish punish= (Punish) adapter.getItem(pos);
                     controller.delete(punish);
                 }
-                adapater.notifyDataSetChanged();;
+                adapter.notifyDataSetChanged();;
             }
         });
 
         //init the list view and configuration it
         listView= (ListView) findViewById(R.id.home_punish_listview);
-        adapater=new PunishesAdapater();
-        listView.setAdapter(adapater);
+        adapter=new PunishesAdapter();
+        listView.setAdapter(adapter);
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("click the item");
                 Intent intent = new Intent(getApplicationContext(), EditPunish.class);
-                Punish punish= (Punish) adapater.getItem(position);
+                Punish punish= (Punish) adapter.getItem(position);
                 punishList.remove(punish);
                 intent.putExtra(INTENT_MODE,CHANGE_MODE);
                 intent.putExtra(EditPunish.PUNISH_ID,punish.getId());
@@ -137,7 +137,7 @@ public class HomePunishActivity extends AppCompatActivity  {
         {
             punishList.add(punish);
         }
-        adapater.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -157,7 +157,7 @@ public class HomePunishActivity extends AppCompatActivity  {
             punish.setCost(b.getInt(EditPunish.PUNISH_COST));
             punish.setContent(b.getString(EditPunish.PUNISH_CONTENT));
             punishList.add(punish);
-            adapater.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -215,7 +215,7 @@ public class HomePunishActivity extends AppCompatActivity  {
 //                row.put(R.id.punish_content,punish.getContent());
 //                rowList.add(row);
             }
-            adapater.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         else
         {
@@ -223,7 +223,7 @@ public class HomePunishActivity extends AppCompatActivity  {
         }
     }
 
-    class PunishesAdapater extends BaseAdapter
+    class PunishesAdapter extends BaseAdapter
     {
         @Override
         public int getCount() {
