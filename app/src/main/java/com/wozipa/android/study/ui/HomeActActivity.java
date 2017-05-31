@@ -91,6 +91,14 @@ public class HomeActActivity extends AppCompatActivity {
                 startActivityForResult(intent, ActivityIds.CREATE_ACT);
             }
         });
+
+        Button timeBtn = (Button) findViewById(R.id.home_act_time);
+        timeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO:计时按钮点击事件
+            }
+        });
+
         //add click listern to listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
