@@ -38,6 +38,8 @@ public class UserService {
 
     public void edit(User user)
     {
+        System.out.println("service:"+user.getId()+" "+user.getAward()+" "+user.getPunish());
+
         dao.edit(user.getId(),user.getAward(),user.getPunish());
     }
 

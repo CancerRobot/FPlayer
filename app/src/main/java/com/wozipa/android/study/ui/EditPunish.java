@@ -119,7 +119,7 @@ public class EditPunish extends AppCompatActivity {
                     else
                     {
                         User user=new User(award,punish-cost);
-                        user.setId(0);
+                        user.setId(1);
                         userController.edit(user);
                         new AlertDialog.Builder(EditPunish.this).setTitle("恭喜").setMessage("领取成功").show();
                     }

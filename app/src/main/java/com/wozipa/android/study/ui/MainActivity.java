@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        Button timeBtn=findViewById(R.id.)
+
         MySqlLite.initlie(MainActivity.this,"fplayer",null,1);
         SQLiteDatabase db=MySqlLite.GetSqlLite().getWritableDatabase();
         if(db==null)

@@ -81,6 +81,7 @@ public class HomePunishActivity extends AppCompatActivity  {
             userList.add(user);
         }
         User u=userList.get(0);
+        System.out.println("Punish"+u.getId()+" "+u.getAward()+" "+u.getPunish());
         char[] punishCs=Integer.toString(u.getPunish()).toCharArray();
         punishTv.setText(punishCs,0,punishCs.length);
 

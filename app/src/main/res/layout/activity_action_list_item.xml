@@ -5,11 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <CheckBox
+        android:id="@+id/act_select"
+        android:layout_width="0dp"
+        android:layout_height="15pt"
+        android:layout_weight="0.5"
+        android:gravity="center_vertical"
+        android:textAlignment="center" />
+
     <TextView
         android:id="@+id/action_id"
         android:layout_width="0pt"
         android:layout_height="15pt"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:gravity="center_vertical"
         android:textAlignment="center" />
 

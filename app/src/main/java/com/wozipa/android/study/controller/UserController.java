@@ -38,6 +38,7 @@ public class UserController {
     }
 
     public void edit(User user){
+        System.out.println("controller:"+user.getId()+" "+user.getAward()+" "+user.getPunish());
         service.edit(user);
     }
 

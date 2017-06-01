@@ -3,6 +3,8 @@ package com.wozipa.android.study.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Chronometer;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,26 +24,41 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Action;
+import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
+import com.wozipa.android.study.ui.util.TimeThread;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HomeActActivity extends AppCompatActivity {
 
     private ListView listView = null;
     private List<Action> actionList=new ArrayList<Action>();
+    private List<User> userList=new ArrayList<User>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
     private ActionsAdapater adapater=null;
+    private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private ActionController controller=new ActionController();
+    private UserController userController = new UserController();
+
+    private final int ADD_PUNISH = 100;
+    private final int LATEST = 5;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private boolean timing=false;
+    private TimeThread thread=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +112,94 @@ public class HomeActActivity extends AppCompatActivity {
             }
         });
 
-        Button timeBtn = (Button) findViewById(R.id.home_act_time);
+        final Chronometer chronometer= (Chronometer) findViewById(R.id.chronometer1);
+        final Button timeBtn = (Button) findViewById(R.id.home_act_time);
         timeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO:计时按钮点击事件
+                if(checkBoxState.size() == 1)
+                {
+                    Set<Integer> keySet=checkBoxState.keySet();
+                    for(Integer position:keySet) {
+                        Action action=(Action) adapater.getItem(position);
+                        String[] splitStart = action.getStart().split(":");
+                        String[] splitEnd = action.getEnd().split(":");
+                        int duration = (Integer.parseInt(splitEnd[0]) - Integer.parseInt(splitStart[0])) * 60
+                                + (Integer.parseInt(splitEnd[1]) - Integer.parseInt(splitStart[1]) );
+                        System.out.println(duration);
+
+                        User[] users = userController.listUndone();
+                        for(User user:users)
+                        {
+                            userList.add(user);
+                        }
+                        User u=userList.get(0);
+                        int award = u.getAward();
+                        int punish = u.getPunish();
+
+                        if (timing)
+                        {
+                            chronometer.stop();
+                            String[] split = chronometer.getText().toString().split(":");
+                            int min = Integer.parseInt(split[0]);
+                            System.out.println(min);
+
+                            if(min < duration)
+                            {
+                                System.out.println("活动时间不足");
+                                User user = new User(award+min/duration*action.getRecord(),punish+ADD_PUNISH);
+                                user.setId(1);
+                                userController.edit(user);
+                                new AlertDialog.Builder(HomeActActivity.this).setTitle("活动时间不足").setMessage("发放奖励点和惩罚点").show();
+                            }
+                            else
+                            {
+                                System.out.println("发放奖励点");
+                                User user = new User(award+action.getRecord(),punish);
+                                user.setId(1);
+                                userController.edit(user);
+                                new AlertDialog.Builder(HomeActActivity.this).setTitle("活动完成").setMessage("发放奖励点").show();
+                            }
+                            char[] time = "00:00".toCharArray();
+                            chronometer.setBase(SystemClock.elapsedRealtime());
+                            chronometer.setText(time, 0, time.length);
+
+                            timing = false;
+                        }
+                        else
+                        {
+                            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+                            String currentTime = sdf.format(new java.util.Date());
+                            String[] splitCurr = currentTime.split(":");
+                            int late = ( Integer.parseInt(splitCurr[0]) - Integer.parseInt(splitStart[0]) ) * 60
+                                    + ( Integer.parseInt(splitCurr[1]) - Integer.parseInt(splitStart[1]) );
+                            if(late < 0)
+                            {
+                                System.out.println("活动为开始");
+                                new AlertDialog.Builder(HomeActActivity.this).setMessage("活动未开始").show();
+                            }
+                            else if(late > LATEST)
+                            {
+                                System.out.println("活动迟到");
+                                User user = new User(award,punish+ADD_PUNISH);
+                                user.setId(1);
+                                userController.edit(user);
+                                new AlertDialog.Builder(HomeActActivity.this).setTitle("迟到").setMessage("已发放惩罚点").show();
+                            }
+                            else
+                            {
+                                System.out.println("活动开始");
+                                chronometer.setBase(SystemClock.elapsedRealtime());
+                                chronometer.start();
+                                timing = true;
+                                new AlertDialog.Builder(HomeActActivity.this).setTitle("活动开始").setMessage("开始计时").show();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    new AlertDialog.Builder(HomeActActivity.this).setMessage("请选择一项活动").show();
+                }
 
             }
         });
@@ -212,7 +316,7 @@ public class HomeActActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = null;
             //布局不变，数据变
             //如果缓存为空，我们生成新的布局作为1个item
@@ -225,6 +329,22 @@ public class HomeActActivity extends AppCompatActivity {
             }
             Action m = actionList.get(position);
             System.out.println(m.toString());
+
+            CheckBox sbx = (CheckBox) view.findViewById(R.id.act_select);
+            sbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                    {
+                        checkBoxState.put(position,true);
+                    }
+                    else
+                    {
+                        checkBoxState.remove(position);
+                    }
+                }
+            });
+
             TextView idTv = (TextView)view.findViewById(R.id.action_id);
             char[] idCs=Integer.toString(m.getId()).toCharArray();
             idTv.setText(idCs,0,idCs.length);

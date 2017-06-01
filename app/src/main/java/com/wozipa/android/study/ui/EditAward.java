@@ -118,12 +118,12 @@ public class EditAward extends AppCompatActivity {
                     int punish=u.getPunish();
                     if(cost > award)
                     {
-                        new AlertDialog.Builder(EditAward.this).setTitle("错误").setMessage("请将参数填写完整").show();
+                        new AlertDialog.Builder(EditAward.this).setTitle("错误").setMessage("奖励点不足").show();
                     }
                     else
                     {
                         User user=new User(award-cost,punish);
-                        user.setId(0);
+                        user.setId(1);
                         userController.edit(user);
                         new AlertDialog.Builder(EditAward.this).setTitle("恭喜").setMessage("兑换成功").show();
                     }

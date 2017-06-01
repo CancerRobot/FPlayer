@@ -2,7 +2,9 @@ package com.wozipa.android.study.ui;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -18,7 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.ui.id.ActivityIds;
-import com.wozipa.android.study.ui.util.DateTimePickDialogUtil;
+import com.wozipa.android.study.ui.receive.AlarmReceive;
 import com.wozipa.android.study.util.Utils;
 
 import org.apache.log4j.Logger;
@@ -70,9 +73,18 @@ public class EditAct extends AppCompatActivity {
 //                TimePickerDialogUtil timePickerDialog = new TimePickerDialogUtil(
 //                        EditAct.this, initStartTime);
 //                timePickerDialog.timePicKDialog(startEt);
-                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
-                        EditAct.this, initStartDateTime);
-                dateTimePicKDialog.dateTimePicKDialog(startEt);
+//                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+//                        EditAct.this, initStartDateTime);
+//                dateTimePicKDialog.dateTimePicKDialog(startEt);
+                new TimePickerDialog(EditAct.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        StringBuffer sb=new StringBuffer();
+                        sb.append(hourOfDay).append(":").append(minute);
+                        char[] timeChars=sb.toString().toCharArray();
+                        startEt.setText(timeChars,0,timeChars.length);
+                    }
+                },12,0,false).show();
             }
         });
 
@@ -81,9 +93,18 @@ public class EditAct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("the start edit text is clicked");
-                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
-                        EditAct.this, initEndDateTime);
-                dateTimePicKDialog.dateTimePicKDialog(endEt);
+//                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+//                        EditAct.this, initEndDateTime);
+//                dateTimePicKDialog.dateTimePicKDialog(endEt);
+                new TimePickerDialog(EditAct.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        StringBuffer sb=new StringBuffer();
+                        sb.append(hourOfDay).append(":").append(minute);
+                        char[] timeChars=sb.toString().toCharArray();
+                        endEt.setText(timeChars,0,timeChars.length);
+                    }
+                },12,0,false).show();
             }
         });
 
@@ -106,14 +127,21 @@ public class EditAct extends AppCompatActivity {
                 //
                 com.wozipa.android.study.model.Action action=actionController.create(name,content,start,end,record);
                 //set one alarm for start
+
                 AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
-                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Calendar now=Calendar.getInstance();
+                int year=now.get(Calendar.YEAR);
+                int mouth=now.get(Calendar.MONTH)+1;
+                int day=now.get(Calendar.DAY_OF_MONTH);
+                String time=year+"-"+mouth+"-"+day+" "+action.getStart();
+                System.out.println(time);
                 try {
-                    Date date=sdf.parse(action.getStart());
-                    Intent alarmIntent=new Intent();
+                    Date date=sdf.parse(time);
+                    Intent alarmIntent=new Intent(EditAct.this, AlarmReceive.class);
                     alarmIntent.setAction("com.Android.AlarmManager.action.BACK_ACTION");
                     alarmIntent.putExtra("Message", "任务"+action.getName()+"开始进行计时");
-                    alarmManager.set(AlarmManager.RTC,date.getTime(), PendingIntent.getBroadcast(EditAct.this, 0,alarmIntent,0));
+                    alarmManager.set(AlarmManager.RTC_WAKEUP,date.getTime(), PendingIntent.getBroadcast(EditAct.this, 0,alarmIntent,0));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

@@ -12,7 +12,8 @@ import android.widget.Toast;
 public class AlarmReceive extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        String msg = intent.getStringExtra("任务时间到");
+        System.out.println("活动时间到");
+        String msg = intent.getStringExtra("Message");
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
     }
 }

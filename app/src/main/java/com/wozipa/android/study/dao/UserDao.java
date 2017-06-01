@@ -48,7 +48,7 @@ public class UserDao {
         stringBuffer.append("update ").append(TABLE_NAME)
                 .append(" set award=").append(award)
                 .append(",punish=").append(punish)
-                .append("where id=").append(id);
+                .append(" where id=").append(id);
         System.out.println(stringBuffer.toString());
         database.execSQL(stringBuffer.toString());
     }
