@@ -20,7 +20,14 @@ public class PunishDao {
 
     SQLiteDatabase database=null;
 
-    public PunishDao(){ database= MySqlLite.GetSqlLite().getWritableDatabase(); }
+    public PunishDao(){
+        MySqlLite sqlLite=MySqlLite.GetSqlLite();
+        if(sqlLite==null)
+        {
+            System.out.println("The sql lite is null");
+        }
+        database=MySqlLite.GetSqlLite().getWritableDatabase();
+    }
 
     public int create(Punish punish){
         StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME).append("('name','cost','content') values('")

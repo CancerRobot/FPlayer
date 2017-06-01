@@ -67,10 +67,17 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="6"
             android:text="现有惩罚点："
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/user_punish"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
             android:textSize="35sp" />
     </LinearLayout>
 

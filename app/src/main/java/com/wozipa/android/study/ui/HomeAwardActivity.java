@@ -2,8 +2,8 @@ package com.wozipa.android.study.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.AwardController;
 import com.wozipa.android.study.model.Award;
+import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
 
 import org.apache.log4j.Logger;
@@ -42,6 +43,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
 
     private ListView listView=null;
     private List<Award> awardList=new ArrayList<Award>();
+    private List<User> userList=new ArrayList<User>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
     private AwardsAdapter adapter=null;
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
@@ -73,6 +75,12 @@ public class HomeAwardActivity extends AppCompatActivity  {
 
         ImageView imageView5= (ImageView) findViewById(R.id.award_delete_img);
         imageView5.setImageResource(R.drawable.remove);
+
+        //TODO:awardTv
+        TextView awardTv=(TextView) findViewById(R.id.user_award);
+        User u=userList.get(0);
+        char[] awardCs=Integer.toString(u.getAward()).toCharArray();
+        awardTv.setText(awardCs,0,awardCs.length);
 
         final Button button1=(Button)findViewById(R.id.home_award_2_act);
         button1.setOnClickListener(new View.OnClickListener(){

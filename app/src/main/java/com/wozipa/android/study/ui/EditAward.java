@@ -15,11 +15,16 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.AwardController;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Award;
+import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.util.Utils;
 
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditAward extends AppCompatActivity {
 
@@ -32,6 +37,9 @@ public class EditAward extends AppCompatActivity {
 
     private GoogleApiClient client;
     private AwardController awardController=null;
+    private UserController userController=null;
+    private List<User> userList=new ArrayList<User>();
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +55,11 @@ public class EditAward extends AppCompatActivity {
         final String mode=bundle.getString(HomeAwardActivity.INTENT_MODE);
         if(bundle!=null && !bundle.isEmpty())
         {
-            char[] name=bundle.getString(AWARD_NAME).toCharArray();
+            char[] name=bundle.getString(AWARD_NAME,"").toCharArray();
             award_name.setText(name,0,name.length);
-            char[] cost=String.valueOf(bundle.getInt(AWARD_COST)).toCharArray();
+            char[] cost=String.valueOf(bundle.getInt(AWARD_COST,0)).toCharArray();
             award_cost.setText(cost,0,cost.length);
-            char[] content=bundle.getString(AWARD_CONTENT).toCharArray();
+            char[] content=bundle.getString(AWARD_CONTENT,"").toCharArray();
             award_content.setText(content,0,content.length);
         }
         Button finishBtn=(Button)findViewById(R.id.edit_award_finish);
@@ -89,11 +97,33 @@ public class EditAward extends AppCompatActivity {
             }
         });
 
-        Button button2=(Button)findViewById(R.id.edit_award_exit);
-        button2.setOnClickListener(new View.OnClickListener(){
+        Button exchangeBtn=(Button)findViewById(R.id.edit_award_exchange);
+        exchangeBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent=new Intent(getApplicationContext(),HomeAwardActivity.class);
-                startActivity(intent);
+                System.out.println("button click");
+                if(mode.equals(HomeAwardActivity.CREATE_MODE))
+                {
+                    return;
+                }
+                else
+                {
+                    int cost=Integer.parseInt(award_cost.getText().toString());
+                    //TODO:edit table user;
+                    User u=userList.get(0);
+                    int award=u.getAward();
+                    int punish=u.getPunish();
+                    if(cost > award)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        User user=new User(award-cost,punish);
+                        user.setId(0);
+                        userController.edit(user);
+                    }
+                }
+                EditAward.this.finish();
             }
         });
 

@@ -34,7 +34,10 @@ public class AwardDao {
 
     public void edit(int id,String name,String content,int cost){
         StringBuffer stringBuffer=new StringBuffer();
-        stringBuffer.append("update ").append(TABLE_NAME).append(" set name='").append(name).append("',content='").append(content).append("',cost=").append(cost)
+        stringBuffer.append("update ").append(TABLE_NAME)
+                .append(" set name='").append(name)
+                .append("',content='").append(content)
+                .append("',cost=").append(cost)
                 .append(" where id=").append(id);
         System.out.println(stringBuffer.toString());
         database.execSQL(stringBuffer.toString());

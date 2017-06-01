@@ -15,9 +15,14 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Punish;
+import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditPunish extends AppCompatActivity {
 
@@ -28,6 +33,9 @@ public class EditPunish extends AppCompatActivity {
 
     private GoogleApiClient client;
     private PunishController punishController=null;
+    private UserController userController=null;
+    private List<User> userList=new ArrayList<User>();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +50,11 @@ public class EditPunish extends AppCompatActivity {
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null && !bundle.isEmpty())
         {
-            char[] name=bundle.getString(PUNISH_NAME).toCharArray();
+            char[] name=bundle.getString(PUNISH_NAME,"").toCharArray();
             punish_name.setText(name,0,name.length);
-            char[] cost=String.valueOf(bundle.getInt(PUNISH_COST)).toCharArray();
+            char[] cost=String.valueOf(bundle.getInt(PUNISH_COST,0)).toCharArray();
             punish_cost.setText(cost,0,cost.length);
-            char[] content=bundle.getString(PUNISH_CONTENT).toCharArray();
+            char[] content=bundle.getString(PUNISH_CONTENT,"").toCharArray();
             punish_content.setText(content,0,content.length);
         }
 
@@ -85,11 +93,33 @@ public class EditPunish extends AppCompatActivity {
             }
         });
 
-        Button button2=(Button)findViewById(R.id.edit_punish_exit);
-        button2.setOnClickListener(new View.OnClickListener(){
+        Button exchangeBtn=(Button)findViewById(R.id.edit_punish_exchange);
+        exchangeBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent=new Intent(getApplicationContext(),HomePunishActivity.class);
-                startActivity(intent);
+                System.out.println("button click");
+                if(mode.equals(HomeAwardActivity.CREATE_MODE))
+                {
+                    return;
+                }
+                else
+                {
+                    int cost=Integer.parseInt(punish_cost.getText().toString());
+                    //TODO:edit table user;
+                    User u=userList.get(0);
+                    int award=u.getAward();
+                    int punish=u.getPunish();
+                    if(cost > punish)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        User user=new User(award,punish-cost);
+                        user.setId(0);
+                        userController.edit(user);
+                    }
+                }
+                EditPunish.this.finish();
             }
         });
 

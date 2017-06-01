@@ -1,6 +1,7 @@
 package com.wozipa.android.study.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.wozipa.android.study.R;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.database.MySqlLite;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,15 +34,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MySqlLite.initlie(MainActivity.this,"fplayer",null,1);
-        if(MySqlLite.GetSqlLite().getWritableDatabase()==null)
+        SQLiteDatabase db=MySqlLite.GetSqlLite().getWritableDatabase();
+        if(db==null)
         {
             System.out.println("the database is null");
         }
-        SQLiteDatabase db=MySqlLite.GetSqlLite().getWritableDatabase();
+
+
+//        String createUserSql="create table user(id integer primary key autoincrement,award integer,punish integer)";
+//        db.execSQL(createUserSql);
 //        String createAwardsSql="create table awards(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
 //        db.execSQL(createAwardsSql);
 //        String createPunishSql="create table punishes(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
 //        db.execSQL(createPunishSql);
+        //TODO:初始化用户
+        int num=0;
+        Cursor cursor=db.rawQuery("select * from user",null);
+        num = cursor.getCount();
+        if(0 == num)
+        {
+            UserController userController=null;
+            userController.create(0,0);
+            System.out.println("初始化用户");
+        }
         System.out.println("初始化数据库");
+
+
     }
 }

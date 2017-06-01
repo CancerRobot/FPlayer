@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
 import com.wozipa.android.study.model.Punish;
+import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class HomePunishActivity extends AppCompatActivity  {
 
     private ListView listView=null;
     private List<Punish> punishList=new ArrayList<Punish>();
+    private List<User> userList=new ArrayList<User>();
     private List<Map<String,Object>> rowList=new ArrayList<Map<String,Object>>();
     private PunishesAdapter adapter=null;
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
@@ -70,6 +72,12 @@ public class HomePunishActivity extends AppCompatActivity  {
         ImageView imageView5= (ImageView) findViewById(R.id.punish_delete_img);
         imageView5.setImageResource(R.drawable.remove);
 
+        //TODO:punishTv
+//        TextView punishTv=(TextView) findViewById(R.id.user_punish);
+//        User u=userList.get(0);
+//        char[] punishCs=Integer.toString(u.getPunish()).toCharArray();
+//        punishTv.setText(punishCs,0,punishCs.length);
+
         Button button1=(Button)findViewById(R.id.home_punish_2_act);
         button1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -82,6 +90,7 @@ public class HomePunishActivity extends AppCompatActivity  {
         button2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent=new Intent(getApplicationContext(),HomeAwardActivity.class);
+                intent.putExtra(INTENT_MODE,CREATE_MODE);
                 startActivity(intent);
             }
         });

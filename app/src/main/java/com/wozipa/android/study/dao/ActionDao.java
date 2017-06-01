@@ -2,7 +2,6 @@ package com.wozipa.android.study.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
 import com.wozipa.android.study.database.MySqlLite;
 import com.wozipa.android.study.model.Action;
@@ -23,7 +22,12 @@ public class ActionDao {
 
     public ActionDao()
     {
-        database=MySqlLite.GetSqlLite().getWritableDatabase();
+        MySqlLite sqlLite=MySqlLite.GetSqlLite();
+        if(sqlLite==null)
+        {
+            System.out.println("the sql lite is null");
+        }
+        database=sqlLite.getWritableDatabase();
     }
 
 
