@@ -21,6 +21,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.AwardController;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Award;
 import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
@@ -49,6 +50,7 @@ public class HomeAwardActivity extends AppCompatActivity  {
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private AwardController controller=new AwardController();
+    private UserController userController=new UserController();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -76,8 +78,12 @@ public class HomeAwardActivity extends AppCompatActivity  {
         ImageView imageView5= (ImageView) findViewById(R.id.award_delete_img);
         imageView5.setImageResource(R.drawable.remove);
 
-        //TODO:awardTv
         TextView awardTv=(TextView) findViewById(R.id.user_award);
+        User[] users=userController.listUndone();
+        for(User user:users)
+        {
+            userList.add(user);
+        }
         User u=userList.get(0);
         char[] awardCs=Integer.toString(u.getAward()).toCharArray();
         awardTv.setText(awardCs,0,awardCs.length);

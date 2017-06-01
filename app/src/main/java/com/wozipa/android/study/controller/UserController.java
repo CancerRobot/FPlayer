@@ -13,12 +13,13 @@ public class UserController {
     private static final Logger LOGGER=Logger.getLogger(UserController.class);
 
     private UserService service=null;
+    private User user=null;
 
     public UserController(){ service = new UserService(); }
 
-    public User create(int award,int punish)
+    public User create(String award,String punish)
     {
-        User user=new User(award,punish);
+        user=new User(Integer.parseInt(award),Integer.parseInt(punish));
         int id=service.create(user);
         user.setId(id);
         return user;

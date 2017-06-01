@@ -21,7 +21,8 @@ public class AwardDao {
     public AwardDao(){ database=MySqlLite.GetSqlLite().getWritableDatabase(); }
 
     public int create(Award award){
-        StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME).append("('name','cost','content') values('")
+        StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME)
+                .append("('name','cost','content') values('")
                 .append(award.getName()).append("',")
                 .append(award.getCost()).append(",'")
                 .append(award.getContent()).append("')");

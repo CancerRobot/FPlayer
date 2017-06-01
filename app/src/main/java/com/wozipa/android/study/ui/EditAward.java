@@ -37,7 +37,7 @@ public class EditAward extends AppCompatActivity {
 
     private GoogleApiClient client;
     private AwardController awardController=null;
-    private UserController userController=null;
+    private UserController userController=new UserController();
     private List<User> userList=new ArrayList<User>();
 
 
@@ -108,19 +108,24 @@ public class EditAward extends AppCompatActivity {
                 else
                 {
                     int cost=Integer.parseInt(award_cost.getText().toString());
-                    //TODO:edit table user;
+                    User[] users=userController.listUndone();
+                    for(User user:users)
+                    {
+                        userList.add(user);
+                    }
                     User u=userList.get(0);
                     int award=u.getAward();
                     int punish=u.getPunish();
                     if(cost > award)
                     {
-                        return;
+                        new AlertDialog.Builder(EditAward.this).setTitle("错误").setMessage("请将参数填写完整").show();
                     }
                     else
                     {
                         User user=new User(award-cost,punish);
                         user.setId(0);
                         userController.edit(user);
+                        new AlertDialog.Builder(EditAward.this).setTitle("恭喜").setMessage("兑换成功").show();
                     }
                 }
                 EditAward.this.finish();

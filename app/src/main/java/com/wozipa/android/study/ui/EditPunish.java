@@ -33,7 +33,7 @@ public class EditPunish extends AppCompatActivity {
 
     private GoogleApiClient client;
     private PunishController punishController=null;
-    private UserController userController=null;
+    private UserController userController=new UserController();
     private List<User> userList=new ArrayList<User>();
 
 
@@ -104,19 +104,24 @@ public class EditPunish extends AppCompatActivity {
                 else
                 {
                     int cost=Integer.parseInt(punish_cost.getText().toString());
-                    //TODO:edit table user;
+                    User[] users=userController.listUndone();
+                    for(User user:users)
+                    {
+                        userList.add(user);
+                    }
                     User u=userList.get(0);
                     int award=u.getAward();
                     int punish=u.getPunish();
                     if(cost > punish)
                     {
-                        return;
+                        new AlertDialog.Builder(EditPunish.this).setTitle("错误").setMessage("惩罚点不足").show();
                     }
                     else
                     {
                         User user=new User(award,punish-cost);
                         user.setId(0);
                         userController.edit(user);
+                        new AlertDialog.Builder(EditPunish.this).setTitle("恭喜").setMessage("领取成功").show();
                     }
                 }
                 EditPunish.this.finish();

@@ -31,9 +31,8 @@ public class UserDao {
 
     public int create(User user)
     {
-        StringBuffer stringBuffer=new StringBuffer("insert to").append(TABLE_NAME)
-                .append("('id','award','punish') value(")
-                .append(user.getId()).append(",")
+        StringBuffer stringBuffer=new StringBuffer("insert into ").append(TABLE_NAME)
+                .append("('award','punish') values(")
                 .append(user.getAward()).append(",")
                 .append(user.getPunish()).append(")");
         System.out.println(stringBuffer.toString());
@@ -65,7 +64,7 @@ public class UserDao {
 
     public Cursor list()
     {
-        String sql="select * form user";
+        String sql="select * from user";
         Cursor cursor=database.rawQuery(sql,null);
         return cursor;
     }

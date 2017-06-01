@@ -21,6 +21,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wozipa.android.study.R;
 import com.wozipa.android.study.controller.PunishController;
+import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Punish;
 import com.wozipa.android.study.model.User;
 import com.wozipa.android.study.ui.id.ActivityIds;
@@ -45,6 +46,7 @@ public class HomePunishActivity extends AppCompatActivity  {
     private Map<Integer,Boolean> checkBoxState=new HashMap<>();
 
     private PunishController controller=new PunishController();
+    private UserController userController=new UserController();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -72,11 +74,15 @@ public class HomePunishActivity extends AppCompatActivity  {
         ImageView imageView5= (ImageView) findViewById(R.id.punish_delete_img);
         imageView5.setImageResource(R.drawable.remove);
 
-        //TODO:punishTv
-//        TextView punishTv=(TextView) findViewById(R.id.user_punish);
-//        User u=userList.get(0);
-//        char[] punishCs=Integer.toString(u.getPunish()).toCharArray();
-//        punishTv.setText(punishCs,0,punishCs.length);
+        TextView punishTv=(TextView) findViewById(R.id.user_punish);
+        User[] users=userController.listUndone();
+        for(User user:users)
+        {
+            userList.add(user);
+        }
+        User u=userList.get(0);
+        char[] punishCs=Integer.toString(u.getPunish()).toCharArray();
+        punishTv.setText(punishCs,0,punishCs.length);
 
         Button button1=(Button)findViewById(R.id.home_punish_2_act);
         button1.setOnClickListener(new View.OnClickListener(){

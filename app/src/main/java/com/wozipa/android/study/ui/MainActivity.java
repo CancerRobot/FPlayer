@@ -47,14 +47,13 @@ public class MainActivity extends AppCompatActivity {
 //        db.execSQL(createAwardsSql);
 //        String createPunishSql="create table punishes(id integer primary key autoincrement,name varchar(20),cost integer,content text)";
 //        db.execSQL(createPunishSql);
-        //TODO:初始化用户
         int num=0;
         Cursor cursor=db.rawQuery("select * from user",null);
         num = cursor.getCount();
         if(0 == num)
         {
-            UserController userController=null;
-            userController.create(0,0);
+            UserController userController=new UserController();
+            userController.create("0","0");
             System.out.println("初始化用户");
         }
         System.out.println("初始化数据库");
