@@ -27,6 +27,7 @@ import com.wozipa.android.study.controller.ActionController;
 import com.wozipa.android.study.controller.UserController;
 import com.wozipa.android.study.model.Action;
 import com.wozipa.android.study.model.User;
+import com.wozipa.android.study.service.MusicService;
 import com.wozipa.android.study.ui.id.ActivityIds;
 import com.wozipa.android.study.ui.util.TimeThread;
 
@@ -116,6 +117,8 @@ public class HomeActActivity extends AppCompatActivity {
         final Button timeBtn = (Button) findViewById(R.id.home_act_time);
         timeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MusicService.class);
+                stopService(intent);
                 if(checkBoxState.size() == 1)
                 {
                     Set<Integer> keySet=checkBoxState.keySet();

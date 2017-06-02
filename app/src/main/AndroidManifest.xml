@@ -68,11 +68,21 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ui.receive.AlarmReceive">
+        <receiver android:name=".ui.receive.AlarmReceive"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="MYALARMRECEIVER" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".service.MusicService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"/>
+            </intent-filter>
+        </service>
 
 
         <!--
